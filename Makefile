@@ -1,10 +1,20 @@
-.PHONY: doc doc-build doc-serve doc-clean
+.PHONY: build clean doc doc-build doc-serve doc-clean
+
+GO ?= go
+GO_OUT ?= bin
+GO_CACHE ?= .cache/go-build
 
 HUGO ?= hugo
 DOC_DIR ?= doc
 DOC_OUT ?= $(DOC_DIR)/public
 HUGO_BUILD_FLAGS ?= --buildDrafts
 HUGO_SERVER_FLAGS ?= --buildDrafts --disableFastRender
+
+build:
+	GOCACHE=$(abspath $(GO_CACHE)) $(GO) build -o $(GO_OUT)/laniakea ./cmd/laniakea
+
+clean:
+	$(RM) -r $(GO_OUT)
 
 doc: doc-build
 
