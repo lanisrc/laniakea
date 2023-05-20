@@ -19,6 +19,9 @@ test:
 vet:
 	GOCACHE=$(abspath $(GO_CACHE)) $(GO) vet ./...
 
+fmt:
+	@test -z "$$($(GO)fmt -l $$(find . -name '*.go' -not -path './.cache/*'))"
+
 check: test vet
 
 clean:
