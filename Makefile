@@ -1,4 +1,4 @@
-.PHONY: build clean doc doc-build doc-serve doc-clean
+.PHONY: build check clean test vet doc doc-build doc-serve doc-clean
 
 GO ?= go
 GO_OUT ?= bin
@@ -12,6 +12,14 @@ HUGO_SERVER_FLAGS ?= --buildDrafts --disableFastRender
 
 build:
 	GOCACHE=$(abspath $(GO_CACHE)) $(GO) build -o $(GO_OUT)/laniakea ./cmd/laniakea
+
+test:
+	GOCACHE=$(abspath $(GO_CACHE)) $(GO) test ./...
+
+vet:
+	GOCACHE=$(abspath $(GO_CACHE)) $(GO) vet ./...
+
+check: test vet
 
 clean:
 	$(RM) -r $(GO_OUT)
