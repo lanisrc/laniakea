@@ -1,6 +1,10 @@
 package laniscope
 
-import "gopkg.in/yaml.v3"
+import (
+	"errors"
+	"strings"
+	"gopkg.in/yaml.v3"
+)
 
 const APIVersion = "laniscope/v1alpha1"
 
@@ -23,4 +27,20 @@ type Laniscope struct {
 	         TypeMeta   `yaml:",inline"`
 	Metadata ObjectMeta `yaml:"metadata"`
 	Spec     yaml.Node  `yaml:"spec,omitempty"`
+}
+
+// Validate checks behavior-independent envelope rules.
+// Supported kinds and versions are checked by a Scheme.
+func (s Laniscope) Validate() error {
+	gv := strings.Split(s.APIVersion, "/")
+	if len(gv) != 2 {
+		return errors.New("apiVersion must use group/version form")
+	}
+	if s.Kind == "" {
+		return errors.New("kind is required")
+	}
+	if s.Metadata.Name == "" {
+		return errors.New("metadata.name is required")
+	}
+	return nil
 }
