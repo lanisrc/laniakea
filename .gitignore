@@ -3,6 +3,7 @@
 !*/
 
 # Source files
+!*.go
 !*.md
 
 # Build files
