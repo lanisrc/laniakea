@@ -45,3 +45,27 @@ func TestRoundTrip(t *testing.T) {
 		t.Fatalf("round-trip YAML differs:\ngot:\n%s\nwant:\n%s", gotYAML, wantYAML)
 	}
 }
+
+func TestSpecShape(t *testing.T) {
+	const base = "apiVersion: " + APIVersion + "\nkind: Test\nmetadata:\n  name: test\n"
+	tests := map[string]struct {
+		spec  string
+		valid bool
+	}{
+		"absent":     {valid: true},
+		"null":       {spec: "spec:\n", valid: true},
+		"mapping":    {spec: "spec:\n  key: value\n", valid: true},
+		"scalar":     {spec: "spec: value\n"},
+		"sequence":   {spec: "spec:\n  - value\n"},
+		"duplicates": {spec: "spec:\n  key: one\n  key: two\n"},
+	}
+
+	for name, test := range tests {
+		t.Run(name, func(t *testing.T) {
+			_, err := Decode([]byte(base + test.spec))
+			if (err == nil) != test.valid {
+				t.Fatalf("Decode() error = %v, valid = %v", err, test.valid)
+			}
+		})
+	}
+}
