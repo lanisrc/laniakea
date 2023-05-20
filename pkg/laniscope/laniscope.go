@@ -1,6 +1,10 @@
 package laniscope
 
-import "gopkg.in/yaml.v3"
+import (
+	"gopkg.in/yaml.v3"
+
+	"laniakea/pkg/backend"
+)
 
 type Laniscope struct {
 	APIVersion string   `yaml:"apiVersion"`
@@ -14,6 +18,7 @@ type Metadata struct {
 }
 
 type Spec struct {
-	Features []Laniscope `yaml:"features,omitempty"`
+	Features []Laniscope     `yaml:"features,omitempty"`
+	Backend  backend.Backend `yaml:"backend,omitempty"`
 	raw      yaml.Node
 }
