@@ -5,6 +5,7 @@
 # Source files
 !*.go
 !*.md
+!*.yaml
 
 # Build files
 !*file

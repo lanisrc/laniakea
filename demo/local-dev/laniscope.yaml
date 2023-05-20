@@ -1,0 +1,21 @@
+apiVersion: laniscope/v1alpha1
+kind: Kubernetes
+metadata: # uniquely identifies and organizes the object
+  name: nebula
+  namespace: lanisys
+  labels:
+    environment: production
+  annotations:
+    description: "Root laniakea scope"
+spec: # defines desired behavior and configuration
+  backend:
+    kind: k3d
+    spec:
+      image: rancher/k3s:v1.27.1-k3s1
+  feature:
+    - kind: GitOps
+      metadata:
+        name: laniops
+      spec:
+        backend:
+          kind: flux2
