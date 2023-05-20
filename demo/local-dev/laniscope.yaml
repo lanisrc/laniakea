@@ -1,10 +1,10 @@
 apiVersion: laniscope/v1alpha1
 kind: Kubernetes
 metadata: # uniquely identifies and organizes the object
-  name: nebula
+  name: local-dev
   namespace: lanisys
   labels:
-    environment: production
+    environment: test
   annotations:
     description: "Root laniakea scope"
 spec: # defines desired behavior and configuration
