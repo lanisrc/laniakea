@@ -1,0 +1,21 @@
+apiVersion: laniscope/v1alpha1
+kind: Kubernetes
+metadata: # uniquely identifies and organizes the object
+  name: local-dev
+  namespace: lanisys
+  labels:
+    environment: test
+  annotations:
+    description: "Root laniakea scope"
+spec: # defines desired behavior and configuration
+  provider:
+    kind: k3d
+    spec:
+      image: rancher/k3s:v1.27.1-k3s1
+  feature:
+    - kind: GitOps
+      metadata:
+        name: laniops
+      spec:
+        backend:
+          kind: flux2
