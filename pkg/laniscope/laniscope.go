@@ -23,11 +23,12 @@ type ObjectMeta struct {
 	Annotations map[string]string `yaml:"annotations,omitempty"`
 }
 
-// Laniscope is the behavior-independent container.
+// Laniscope is a fully decoded object.
+// Spec points to the concrete structure selected by Kind.
 type Laniscope struct {
-	         TypeMeta   `yaml:",inline"`
-	Metadata ObjectMeta `yaml:"metadata"`
-	Spec     yaml.Node  `yaml:"spec,omitempty"`
+	         TypeMeta
+	Metadata ObjectMeta
+	Spec     any
 }
 
 // Validate checks behavior-independent envelope rules.
@@ -45,6 +46,7 @@ func (s Laniscope) Validate() error {
 		return errors.New("metadata.name is required")
 	}
 
+	/*
 	if s.Spec.Kind == 0 || s.Spec.Tag == "!!null" {
 		return nil
 	}
@@ -58,6 +60,7 @@ func (s Laniscope) Validate() error {
 	if err := s.Spec.Decode(&fields); err != nil {
 		return fmt.Errorf("spec: %w", err)
 	}
+	*/
 
 	return nil
 }
